@@ -1,0 +1,15 @@
+<h1>顧客編集画面</h1>
+
+<%= form_with model: @customer do |f| %>
+
+<p>会員ID : <%= f.text_field :id %></p>
+<p>氏名 : 姓<%= f.text_field :last_name %>　名<%= f.text_field :first_name %></p>
+<p>フリガナ : セイ<%= f.text_field :last_name_kana %>　メイ<%= f.text_field :first_name_kana %></p>
+<p>郵便番号 : <%= f.text_field :postal_code %></p>
+<p>住所 : <%= f.text_field :address %></p>
+<p>電話番号 : <%= f.text_field :telephone_number %></p>
+<p>メールアドレス : <%= f.text_field :email %></p>
+<p>会員ステータス </p>
+
+<%= f.submit '変更を保存' %>
+<% end %>
