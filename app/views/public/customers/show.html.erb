@@ -1,23 +1,21 @@
 <h1>マイページ</h1>
-登録情報
-<%= link_to "編集する", edit_customer_path(@customer.id) %>
+<p>登録情報  <%= link_to "編集する", edit_customer_path(@customer.id) %></p>
 
 
 <tr>
-   <td>氏名 :<%= @customer.last_name %><%= @customer.first_name %></td>
-   <td>カナ :<%= @customer.last_name_kana %><%= @customer.first_name_kana %></td>
-   <td>郵便番号 :<%= @customer.postal_code %></td>
-   <td>住所 :<%= @customer.address %></td>
-   <td>電話番号 :<%= @customer.telephone_number %></td>
-   <td>メールアドレス :<%= @customer.email %></td>
+   <td>氏名 :<%= @customer.last_name %><%= @customer.first_name %><br>
+   <td>カナ :<%= @customer.last_name_kana %><%= @customer.first_name_kana %><br>
+   <td>郵便番号 :<%= @customer.postal_code %><br>
+   <td>住所 :<%= @customer.address %><br>
+   <td>電話番号 :<%= @customer.telephone_number %><br>
+   <td>メールアドレス :<%= @customer.email %><br>
+</td>
 </tr>
 
-<p>注文履歴</p> <%= link_to "注文一覧に戻る", items_path %>
+<p>配送先 <%= link_to "一覧を見る", address_index_path %></p>
+<p>注文履歴　<%= link_to "一覧を見る", orders_path %></p>
 
 
 
 
-<p>配送先</p>
-<p>注文履歴</p>
 
-<%= link_to "配送先登録", address_index_path %>

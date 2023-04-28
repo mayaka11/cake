@@ -3,8 +3,8 @@
 
 <%= form_with model: @customer do |f| %>
 
-<p>氏名 : <%= f.text_field :last_name %><%= f.text_field :first_name %></p>
-<p>フリガナ : <%= f.text_field :last_name_kana %><%= f.text_field :first_name_kana %></p>
+<p>氏名 : <%= f.text_field :last_name %>  <%= f.text_field :first_name %></p>
+<p>フリガナ : <%= f.text_field :last_name_kana %>  <%= f.text_field :first_name_kana %></p>
 <p>郵便番号 : <%= f.text_field :postal_code %></p>
 <p>住所 : <%= f.text_field :address %></p>
 <p>電話番号 : <%= f.text_field :telephone_number %></p>
@@ -12,5 +12,5 @@
 
 
 <%= f.submit '編集内容を保存' %>
-<%= link_to "退会確認画面へ", customers_quit_path %>
+<%= link_to "退会する", customers_quit_path %>
 <% end %>

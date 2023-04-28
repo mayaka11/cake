@@ -1,41 +1,15 @@
 <h1>注文情報入力</h1>
 
 <%= form_with model: @order, url: "/orders/log", method: :post, local: true do |f| %>
+ <div>
+      <h3><%= f.label :payment, "支払方法" %></h3>
+      <%= f.radio_button :payment, "クレジットカード", checked: "checked" %>
+      <%= f.label :payment, "クレジットカード" %>
+      <br>
+      <%= f.radio_button :payment, "銀行振込" %>
+      <%= f.label :payment, "銀行振込" %>
+    </div>
 
 
-<p>支払い方法</p>
-  <tr>クレジットカード</tr>
-  <tr>銀行振り込み</tr>
 
-<p>お届け先</p>
-    <br>
-        <%= f.label :order_address, "ご自身の住所" %>
-        〒<%= current_customer.postal_code %>
-        <%= current_customer.address %><br>
-        <%= current_customer.last_name %><%= current_customer.first_name %>
-    <br>
-
- <%= form_with model: @order, url: orders_log_path, local: true do |f| %>
-        <%= f.radio_button :address_number, 1 %> <!-- address_number と定義して1～3の番号を check に送ります -->
-        <%= f.label :address_number_1, "ご自身の住所" %>
-        <%= current_customer.customer_address %>
-
-  <tr>登録済み住所から選択</tr>
-         <%= f.radio_button :address_number, 2 %>
-         <%= f.label :address_number_2, "登録先の住所" %>
-         <%= f.collection_select(:registered, current_customer.addresses.all, :id, :address %>
-       <!-- registered として current_customer.address.all で取得した id を送ります。
-         ユーザーに表示して選択してもらうのは address です -->
-
-  <tr>新しいお届け先</tr>
-       <%= f.radio_button :address_number, 3 %>
-       <%= f.label :address_number_3, "新しいお届け先" %>
-       <%= f.label :address, "住所" %>
-       <%= f.text_field :address %>
-       <%= f.label :address_name, "宛名" %>
-       <%= f.text_field :address_name %>
-
-
-  <%= f.submit "確認画面へ進む" %>
-
-<% end %>
+  <% end %>

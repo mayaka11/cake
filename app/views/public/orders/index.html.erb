@@ -1,8 +1,26 @@
-<h1>注文履歴一覧</h1>
 
-注文日
-配送先
-注文商品
-支払金額
-ステータス
-注文詳細
+
+  <h3>注文履歴一覧</h3>
+
+    <thead>
+      <tr>
+        <th>購入者</th>
+        <th>注文日</th>
+        <th>配送先</th>
+        <th>支払金額</th>
+      </tr>
+    </thead>
+
+      <tbody>
+        <% @orders.each do |order| %>
+        <tr>
+          <td><%= order.created_at.to_s(:datetime_jp) %></td> <!--表示時間を日本語にする-->
+          <td>
+            <%= order.name %><br/><!--配送先宛名-->
+            <%= order.postal_code %><br/><!--配送先郵便番号-->
+            <%= order.address %><br/><!--配送先住所-->
+            <%= order.billing_amount %><!--請求額-->
+          </td>
+        </tr>
+      </tbody>
+      <% end %>
