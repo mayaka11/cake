@@ -1,19 +1,73 @@
-<!-- ユーザーに確認してもらうための表示です -->
-<% @cart_items.each do |cart| %>
-  <%= cart.item.name %> <!-- 商品名 -->
-  <%= (cart.item.price).to_s(:delimited) %>　<!-- 金額 -->
-  <%= cart.quantity %> <!-- 個数 -->
-  <%= (cart.item.price*cart.quantity).to_s(:delimited) %> <!-- 小計 -->
-<% end %>
-<p>ご請求金額</p>
-<%= @total.to_s(:delimited) %> <!-- お買い物の合計金額 -->
-<p>お届け先</p>
-<%= @order.address %>
+
+<h1>注文情報確認</h1>
+
+<table>
+   <% total = 0 %> <!--合計金額total初期化-->
+      <% @cart_items.each do |cart_item| %>
+      <tr>
+        <th>商品名</th>
+        <td><%= cart_item.item.name %></td>
+      </tr>
+      <tr>
+        <th>単価(税込)</th>
+        <td><%= (cart_item.item.price*1.08).to_i %></td>
+      </tr>
+      <tr>
+        <th>数量</th>
+        <td><%= cart_item.amount %></td>
+      </tr>
+      <tr>
+        <th>小計</th>
+        <td>
+          <% subtotal = ((cart_item.item.price*cart_item.amount)*1.08).to_i %> <!--小計の計算-->
+          <%= subtotal %>  <!--小計を表示-->
+        </td>
+      </tr>
+         <% total += (cart_item.item.price*cart_item.amount)*1.08 %>  <!--アイテムごとに合計金額に加算-->
+    <% end %>
+</table>
+
+<table>
+     <tr>
+       <th>送料</th>
+        <% @order.postage = 800 %>
+       <td><%= @order.postage %></td>
+      </tr>
+     <tr>
+       <th>商品合計</th>
+       <td><%= total.to_i %></td>
+      </tr>
+      <tr>
+        <th>請求金額</th>
+        <% @order.billing_amount = @order.postage + total.to_i %>
+        <td><%= @order.billing_amount %></td>
+      </tr>
+</table>
+
+<table>
+ <tr>
+  <th>支払い方法</th>
+  <td><%= @order.method_of_payment %></td>
+ </tr>
+ <tr>
+   <th>お届け先</th>
+   <td>
+    <%= @order.postal_code %> <!--郵便番号-->
+    <%= @order.address %>　 <!--住所-->
+    <%= @order.name %>      <!--名前-->
+   </td>
+  </tr>
+</table>
 
 <!-- ユーザーには注文確定ボタンだけ表示します -->
-<%= form_with model: @order, url: create へのパス, local: true do |f| %>
-  <%= f.hidden_field :name %>
-  <%= f.hidden_field :address %>
-  <%= f.hidden_field :total_price, value: @total %>
-  <%= f.submit "注文を確定する" %>
+<%= form_with model: @order, url: orders_path, method: :post, local: true do |f| %>
+   <%= f.hidden_field :customer_id %>
+   <%= f.hidden_field :postage %>
+   <%= f.hidden_field :billing_amount %>
+   <%= f.hidden_field :payment_method %>
+   <%= f.hidden_field :name %>
+   <%= f.hidden_field :address %>
+   <%= f.hidden_field :post_code %>
+   <%= f.hidden_field :status %>
+  <%= f.submit "注文を確定する", class: "btn btn-success" %>
 <% end %>

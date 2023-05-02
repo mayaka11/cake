@@ -1,15 +1,59 @@
 <h1>注文情報入力</h1>
 
 <%= form_with model: @order, url: "/orders/log", method: :post, local: true do |f| %>
+
+<h1>支払方法</h1>
  <div>
-      <h3><%= f.label :payment, "支払方法" %></h3>
-      <%= f.radio_button :payment, "クレジットカード", checked: "checked" %>
-      <%= f.label :payment, "クレジットカード" %>
+   <%= f.radio_button :method_of_payment, Order.method_of_payments.key(0) %>
+   <%= f.label :method_of_payment_credit_card, "クレジットカード" %>
+
+   <%= f.radio_button :method_of_payment, Order.method_of_payments.key(1) %>
+   <%= f.label :method_of_payment_transfer, "銀行振込" %>
+ </div>
+
+
+<h1>お届け先</h1>
+    <%= f.radio_button :address_option, 0, checked: "checked" %>  <!--checked:予めbuttn選択される-->
+      <%= f.label :order_address, "ご自身の住所" %>
       <br>
-      <%= f.radio_button :payment, "銀行振込" %>
-      <%= f.label :payment, "銀行振込" %>
+      <%= @customer.postal_code.to_s.insert(3, "-") %><br/> <!--郵便番号-->
+      <%= @customer.address %><br/> <!--住所-->
+      <%= @customer.last_name %><%= @customer.first_name %>  <!--名前-->
+      <br>
+      <%= f.radio_button :address_option, 1 %>
+      <%= f.label :order_address, "登録済住所から選択" %>
+      <br>
+      <%= f.select :address_id, options_from_collection_for_select(Address.all, :id, :address_display) %>
+      <br>
+      <%= f.radio_button :address_option, 2 %>
+      <%= f.label :order_address, "新しいお届け先" %>
+      <br>
+      <div class="row">
+          <div class="col-lg-2">
+            <%= f.label :postal_code, "郵便番号(ハイフンなし）" %>
+            <%= f.text_field :postal_code,class:"col-lg-2" %>
+          </div>
+      </div>
+      </br>
+      <div class="row">
+          <div class="col-lg-2">
+            <%= f.label :address, "住所" %>
+            <%= f.text_field :address , class:"col-lg-4"%>
+          </div>
+      </div>
+      </br>
+      <div class="row">
+          <div class="col-lg-2">
+            <%= f.label :name, "宛名" %>
+            <%= f.text_field :name , class:"col-lg-2"%>
+          </div>
+      </div>
+      <br>
+      <div class="text-center">
+      <%= f.submit "確認画面へ進む", class:"btn btn-lg btn-primary" %>
+      </div>
     </div>
 
 
-
   <% end %>
+</div>

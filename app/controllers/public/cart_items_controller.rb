@@ -1,37 +1,37 @@
 class Public::CartItemsController < ApplicationController
-
+before_action :authenticate_customer!
 
   def index
-
-      @cart_items = current_customer.cart_items.all
-
+    @cart_items = current_customer.cart_items.includes([:item])
+    @total = 0
   end
 
   def create
-    cart_item = CartItem.new(cart_item_params)
-     if current_customer.cart_items.find_by(item_id: params[:cart_item][:item_id]).present?
+    @cart_item = current_customer.cart_items.new(cart_item_params)
+      if current_customer.cart_items.find_by(item_id: params[:cart_item][:item_id]).present?
                           #元々カート内にあるもの「item_id」
-                          #今追加した　　　　　　　params[:cart_item][:item_id])
+                          #今追加したparams[:cart_item][:item_id])
         cart_item = current_customer.cart_items.find_by(item_id: params[:cart_item][:item_id])
+        cart_item.amount += params[:cart_item][:amount].to_i
         cart_item.save
-        redirect_to cart_items_path(cart_item.id)
-     else
-        @cart_item.save
-        @cart_items = current_customer.cart_items.all
-        render 'index'
-     end
+      else
+        @cart_item.save!
+      end
+        redirect_to cart_items_path
   end
-
-    ## 小計を求めるメソッド
-  def subtotal
-    item.with_tax_price * amount
-  end
-
 
   def update
-    cart_item = Cart_item.find(params[:id])
-    cart_item.update(cart_item_params)
-    redirect_to cart_item_path(cart_item.id)
+     @cart_item = Cart_item.find(params[:id])
+    if params[:cart_item][:amount] == "0"
+      @cart_item.destroy
+      redirect_to cart_items_path
+    elsif @cart_item.update(amount: params[:cart_item][:amount])
+      redirect_to cart_items_path
+    else
+      @cart_items = current_customer.cart_items
+      @total_price = current_customer.cart_items.cart_items_total_price(@cart_items)
+      render "cart_items/index"
+    end
   end
 
   def destroy
@@ -42,8 +42,7 @@ class Public::CartItemsController < ApplicationController
   end
 
   def destroy_all
-    cart_items = Cart_item.all
-    cart_items.destroy_all
+    current_customer.cart_items.destroy_all
     redirect_to cart_items_path
   end
 

@@ -1,16 +1,56 @@
 <h1>注文履歴詳細</h1>
 
 <p>注文情報</p>
-注文日
-配送先
-支払方法
-ステータス
+   注文日:<%= @order.created_at.to_s(:datetime_jp) %></td> <!--表示時間を日本語にする-->
+   配送先： <td>
+              <%= @order.postal_code %>
+              <%= @order.address %>
+              <%= @order.name %>
+            </td>
+   支払方法:<%= @order.method_of_payment %><br>
+   ステータス:<%= @order.status %>
 
 
-<p>請求情報</p>
-商品合計
-配送料
-ご請求額
-
-
-<p>注文内容</p>
+<b>請求情報</b>
+        <table class="table order-show-table">
+          <tbody>
+            <tr>
+                <td class="active">商品合計</td>
+                <td>¥<%= (@order.billing_amount - @order.postage).to_s(:delimited) %></td>
+            </tr>
+            <tr>
+              <td class="active">配送料</td>
+              <td>¥<%= @order.postage %></td>
+            </tr>
+            <tr>
+              <td class="active"><b>ご請求額</b></td>
+              <td>¥<%= "#{@order.billing_amount.to_s(:delimited)}"%></td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+  <div class="col-xs-8">
+    <b>注文内容</b>
+    <table class="table order-show-table">
+      <thead>
+        <tr>
+          <th class="active col-xs-6">商品</th>
+          <th class="active">単価（税込）</th>
+          <th class="active">個数</th>
+          <th class="active">小計</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @order_details.each do |order_detail| %>
+          <tr>
+            <td><%= order_detail.product.name %></td>
+            <td>¥<%= (order_detail.price * 1.1).floor.to_s(:delimited) %></td>
+            <td><%= order_detail.amount %></td>
+            <td>¥<%= (order_detail.price * order_detail.amount * 1.1).floor.to_s(:delimited) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
