@@ -1,5 +1,5 @@
 class Admin::OrdersController < ApplicationController
-    before_action :authenticate_customer!
+    before_action :authenticate_admin!
 
   def index
     @orders = Order.all.page(params[:page]).per(10).order('created_at DESC')
@@ -7,7 +7,6 @@ class Admin::OrdersController < ApplicationController
 
   def show
     @order = Order.find(params[:id])
-    @order_details = @order.order_details
   end
 
   def update

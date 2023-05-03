@@ -1,1 +1,11 @@
-<h1>注文詳細画面（ステータス編集を兼ねる）</h1>
+<h1>注文詳細画面（管理者側）</h1>
+
+<tbody>
+      <tr>
+        <td>注文日:<%= @order.created_at.to_s(:datetime_jp) %><br> <!--表示時間を日本語にする-->
+            <td>購入者：<%= @order.name %><br>
+            <td>配送先住所：<%= @order.address %><br><!--配送先住所-->
+            <td>請求額：<%= "#{@order.billing_amount.to_s(:delimited)}" %>円<br> <!--請求額-->
+            <td>支払方法：<%= @order.method_of_payment %></td>
+        </tr>
+      </tbody>

@@ -1,14 +1,14 @@
 <h1>注文履歴詳細</h1>
 
-<p>注文情報</p>
-   注文日:<%= @order.created_at.to_s(:datetime_jp) %></td> <!--表示時間を日本語にする-->
+<b>注文情報</b>
+   注文日:<%= @order.created_at.to_s(:datetime_jp) %></br> <!--表示時間を日本語にする-->
    配送先： <td>
               <%= @order.postal_code %>
               <%= @order.address %>
               <%= @order.name %>
             </td>
    支払方法:<%= @order.method_of_payment %><br>
-   ステータス:<%= @order.status %>
+
 
 
 <b>請求情報</b>
@@ -44,10 +44,10 @@
       <tbody>
         <% @order_details.each do |order_detail| %>
           <tr>
-            <td><%= order_detail.product.name %></td>
-            <td>¥<%= (order_detail.price * 1.1).floor.to_s(:delimited) %></td>
+            <td><%= order_detail.order.name %></td>
+            <td>¥<%= (order_detail.tax_included * 1.1).floor.to_s(:delimited) %></td>
             <td><%= order_detail.amount %></td>
-            <td>¥<%= (order_detail.price * order_detail.amount * 1.1).floor.to_s(:delimited) %></td>
+            <td>¥<%= (order_detail.tax_included * order_detail.amount * 1.1).floor.to_s(:delimited) %></td>
           </tr>
         <% end %>
       </tbody>

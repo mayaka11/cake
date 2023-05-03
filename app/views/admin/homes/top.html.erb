@@ -1,13 +1,15 @@
 <h1>管理者トップページ（注文履歴一覧）</h1>
 
   <tbody>
-  <% @orders.each do |order| %>
-  <tr>
-    <td>購入日時:<%= order.created_at.to_s(:datetime_jp) %></td> <!--表示時間を日本語にする-->
-    <td>
-        購入者：<%= order.name %><br>
-        注文個数:<br>
-    </td>
-    </tr>
-  </tbody>
+
+   <% @orders.each do |order| %>
+        <tr>
+          <td>購入日時:<%= order.created_at.to_s(:datetime_jp) %></td> <!--表示時間を日本語にする-->
+            <td>購入者：<%= order.name %></td>
+            <% @order_details.each do |order_detail| %>
+             <td>注文個数：<%= order_detail.amount %><br></td>
+        </tr>
+        <td><%= link_to '注文履歴詳細' %></td>
+      </tbody>
+      <% end %>
       <% end %>

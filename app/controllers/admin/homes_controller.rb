@@ -1,8 +1,8 @@
 class Admin::HomesController < ApplicationController
+    before_action :authenticate_admin!
   def top
-     @order_derail = OrderDetail.all
-     @orders = Order.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
-
+    @orders = Order.all
+    @order_details = OrderDetail.all
   end
 
   private
@@ -10,4 +10,5 @@ class Admin::HomesController < ApplicationController
   def home_params
     parame.require(:home).permit(:name, :amount)
   end
+
 end
