@@ -4,8 +4,11 @@
     顧客一覧
   </span>
 </div>
-  <thead>
-      <% @customers.each do |customer| %>
+
+
+<thead>
+  <% @customers.each do |customer| %>
+       <th><%= link_to "顧客情報詳細一覧", admin_customer_path(customer.id) %></th>
     <tr>
        <th>会員番号  <%= customer.id %></br>
        <th>氏名  <%= customer.last_name %>  <%=customer.first_name %></br>
@@ -13,6 +16,7 @@
        <th>会員ステータス  <%= customer.is_deleted %></br>
        <th class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-gray-200 border-solid shadow-none tracking-none whitespace-nowrap text-slate-400"></th>
     </tr>
-  </thead>
-<% end %>
+  <% end %>
+</thead>
+
 
