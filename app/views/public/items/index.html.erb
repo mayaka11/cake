@@ -1,0 +1,19 @@
+<h1>商品一覧</h1>
+
+
+<% @items.each do |item| %>
+
+ <p>画像</p>
+  <td><%= link_to item_path(item.id) do %>
+  <% if item.image.attached? %>
+    <%= image_tag item.image, size: "200x200" %>
+  <% else %>
+    <%= image_tag 'no_image', size: "200x200" %>
+  <% end %><% end %></td>
+
+<p>商品ID : <%= item.id %></p>
+<p> 商品名 : <%= link_to item.name, item_path(item.id) %></p>
+<p>税抜き価格 : <%= item.price %></p>
+
+
+<% end %>
