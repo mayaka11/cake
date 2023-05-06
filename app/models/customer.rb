@@ -15,4 +15,11 @@ class Customer < ApplicationRecord
     super && (is_deleted == false)
  end
 
+ def status_in_japanese
+  if is_deleted
+      "退会"
+  else
+      "有効"
+  end
+ end
 end
